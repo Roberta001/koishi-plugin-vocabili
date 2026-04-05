@@ -835,7 +835,6 @@ interface QQSendMessageRequest {
   content: string
   msg_type: 2
   msg_id?: string
-  msg_seq?: number
   markdown: { content: string }
 }
 
@@ -848,13 +847,10 @@ async function sendTextOrMarkdown(session: any, config: Config, text: string): P
   if (config.enableQQNativeMarkdown && session.platform === 'qq') {
     const internal = session.bot?.internal as QQSessionBridge | undefined
     if (internal) {
-      session['seq'] = session['seq'] || 0;
-      const msgSeq = ++session['seq'];
       const payload: QQSendMessageRequest = {
         content: 'Vocabili 报告',
         msg_type: 2,
         msg_id: session.messageId,
-        msg_seq: msgSeq,
         markdown: { content: text },
       }
       try {
